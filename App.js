@@ -1,9 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View, Button, Alert, ScrollView, FlatList, Modal,  } from "react-native";
+import { StyleSheet, Text, TextInput, View, Button, Alert, ScrollView, FlatList, Modal, Switch, TouchableHighlight  } from "react-native";
 
 export default function App() {
 const [modalVisible,setModalVisible] = useState(false)
+const [switchValue, setSwitchValue] = useState(false)
 const [inputFieldText,setInputFieldText] = useState("")
 const [words,setWords] = useState([])
 
@@ -14,23 +15,24 @@ setInputFieldText("")
 
   const showAlert = () => {
   Alert.alert('Knappen är tryckt')
+
 }
-  return (
+const onSwitchValueChange =  (value) => {
+  setSwitchValue(value)
+}
+
+const onCloseModal = () => {
+  setModalVisible(false)
+}
+return (
 
     <View style={styles.container}>
-     <Modal
-     
-></Modal>
+
       <Text style={styles.text}>React Native, lektion 1</Text>
       <Button onPress={showAlert} color="red" style={styles.button} title="Tryck här" />
       <StatusBar style="auto" />
 
-        <ScrollView>
-          <FlatList data={words} renderItem={({item}) => <Text>{item}</Text>}>
-
-          </FlatList>
-{/*    {words.map((text, index) => ( <Text key={index}>{text}</Text>))} */}
-      </ScrollView>
+          <FlatList data={words} renderItem={({item}) => <Text>{item}</Text>}/>
 
       <TextInput
       onChangeText={setInputFieldText}
@@ -41,22 +43,26 @@ setInputFieldText("")
       <Button title="Lägg till i listan"
       onPress={addtext}
       />
-    
-    <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Text style={styles.modalButton}>Öppna modal</Text>
-      </TouchableOpacity>
+  
 
-      <Modal visible={modalVisible} animationType="slide" transparent={true}>
-        <View style={styles.modal}>
-          <Text style={styles.modalText}>Detta är en modal</Text>
-          <TouchableOpacity onPress={() => setModalVisible(false)}>
-            <Text style={styles.modalButton}>Stäng modal</Text>
-          </TouchableOpacity>
+        <Button color="orange" title="Det här är en modal" onPress={ () => setModalVisible(true)} ></Button>
+  
+      <Modal style={styles.modal} visible={modalVisible} animationType="slide">
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Switch
+            value={switchValue}
+            onValueChange={onSwitchValueChange}
+            trackColor={{ false: 'red', true: 'green' }}
+          />
+         
+            <Button color="black" title="Stäng modalen"onPress={onCloseModal}/>
+          <Text>Andra sidan av modalen! D:</Text>
         </View>
       </Modal>
     </View>
   );
-}
+};
+
 
 const styles = StyleSheet.create({
   container: {
@@ -66,6 +72,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
+    padding: 30,
+    flex: 1,
     color: "blue",
     fontSize: 20,
     fontWeight: "bold",
@@ -78,10 +86,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: "100%",
   },
-  modalText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-
+  modal: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  }
 });
