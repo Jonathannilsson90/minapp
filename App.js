@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
+import React from 'react'
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View, Button, Alert, ScrollView, FlatList, Modal, Switch, TouchableHighlight  } from "react-native";
+import { StyleSheet, Text, TextInput, View, Button, Alert,  FlatList, Modal, Switch, } from "react-native";
 
 export default function App() {
 const [modalVisible,setModalVisible] = useState(false)
@@ -61,7 +62,7 @@ return (
       </Modal>
     </View>
   );
-};
+}
 
 
 const styles = StyleSheet.create({
